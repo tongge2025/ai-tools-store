@@ -515,7 +515,7 @@
             background: #1e1b4b;
             border-radius: 24px;
             padding: 2.5rem;
-            max-width: 400px;
+            max-width: 520px;
             width: 90%;
             text-align: center;
             position: relative;
@@ -551,16 +551,22 @@
         }
 
         .qr-placeholder {
-            width: 120px;
-            height: 120px;
+            width: 100%;
+            max-width: 200px;
             margin: 0 auto;
-            background: #fff;
-            border-radius: 8px;
+            aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+        
+        .qr-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .payment-note {
@@ -867,19 +873,22 @@
             <p style="color: #a1a1aa; margin-bottom: 1rem;">扫码支付 <strong id="modalPrice">69.9</strong> 元</p>
             <div class="qr-codes">
                 <div class="qr-item">
-                    <h4>微信支付</h4>
+                    <h4>📱 微信支付</h4>
                     <div class="qr-placeholder">
-                        <img id="wechatQR" src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/微信收款码.jpg" alt="微信支付二维码" style="width: 120px; height: 120px;">
+                        <img src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/微信收款码.jpg" alt="微信支付二维码">
                     </div>
                 </div>
                 <div class="qr-item">
-                    <h4>支付宝</h4>
+                    <h4>💰 支付宝</h4>
                     <div class="qr-placeholder">
-                        <img id="alipayQR" src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/支付宝收款码.jpg" alt="支付宝二维码" style="width: 120px; height: 120px;">
+                        <img src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/支付宝收款码.jpg" alt="支付宝二维码">
                     </div>
                 </div>
             </div>
-            <p class="payment-note">💬 付款后联系微信：xiaohongshu-mcp</p>
+            <div class="payment-note">
+                <p>💬 <strong>付款后联系微信：xiaohongshu-mcp</strong></p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">添加时请备注"购买资料"，客服会发送下载链接</p>
+            </div>
         </div>
     </div>
 
