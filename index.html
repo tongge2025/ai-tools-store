@@ -533,11 +533,10 @@
         }
 
         .qr-codes {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             margin: 1.5rem 0;
-            flex-wrap: wrap;
         }
 
         .qr-item {
@@ -557,12 +556,15 @@
             border-radius: 8px;
             padding: 5px;
             display: inline-block;
+            width: 180px;
+            height: 180px;
         }
         
         .qr-placeholder img {
             display: block;
-            max-width: 150px;
-            height: auto;
+            width: 170px;
+            height: 170px;
+            object-fit: contain;
         }
 
         .payment-note {
@@ -871,7 +873,7 @@
                 <div class="qr-item">
                     <h4>📱 微信支付</h4>
                     <div class="qr-placeholder">
-                        <img src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/微信收款码.jpg" alt="微信支付二维码">
+                        <img src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/微信收款码_Fotor.jpg" alt="微信支付二维码">
                     </div>
                 </div>
                 <div class="qr-item">
