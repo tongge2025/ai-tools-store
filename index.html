@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有料AI - AI工具资料包 | 让每个人都能用上AI</title>
+    <meta name="description" content="整理了50+实用AI工具教程，ChatGPT、Midjourney、Stable Diffusion使用指南，Prompt模板合集。让AI小白也能快速上手！">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --dark: #1e1b4b;
+            --light: #faf5ff;
+            --gray: #6b7280;
+            --bg: #0f0e17;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 背景渐变 */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 14, 23, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #a1a1aa;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Hero区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge span {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #a1a1aa;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #71717a;
+        }
+
+        /* 功能介绍 */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #a1a1aa;
+            font-size: 1.1rem;
+        }
+
+        /* 资料包卡片 */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .package-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .package-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .package-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .package-card:nth-child(1) .package-icon { background: rgba(99, 102, 241, 0.2); }
+        .package-card:nth-child(2) .package-icon { background: rgba(236, 72, 153, 0.2); }
+        .package-card:nth-child(3) .package-icon { background: rgba(245, 158, 11, 0.2); }
+        .package-card:nth-child(4) .package-icon { background: rgba(16, 185, 129, 0.2); }
+
+        .package-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-card p {
+            color: #a1a1aa;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .package-list {
+            list-style: none;
+        }
+
+        .package-list li {
+            padding: 0.5rem 0;
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .package-list li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* 定价区 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+        }
+
+        .pricing-card.featured::before {
+            content: '最受欢迎';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .pricing-name {
+            font-size: 1.3rem;
+            color: #a1a1aa;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: #71717a;
+        }
+
+        .pricing-desc {
+            color: #71717a;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+        }
+
+        /* 用户评价 */
+        .testimonials {
+            background: rgba(255,255,255,0.02);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 4rem 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            color: #d4d4d8;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .testimonial-name {
+            font-weight: 500;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: #71717a;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .faq-answer {
+            color: #a1a1aa;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* 底部CTA */
+        .cta-section {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.1));
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #71717a;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* 支付弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1e1b4b;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #71717a;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .qr-codes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .qr-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .qr-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 0.8rem;
+        }
+
+        .payment-note {
+            font-size: 0.85rem;
+            color: #71717a;
+            margin-top: 1rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">有料AI</div>
+        <ul class="nav-links">
+            <li><a href="#packages">资料包</a></li>
+            <li><a href="#pricing">价格</a></li>
+            <li><a href="#testimonials">评价</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a href="#pricing" class="btn btn-primary">立即购买</a>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span>🔥</span> 已有 <strong>1000+</strong> 人购买
+        </div>
+        <h1>
+            零基础入门<span class="highlight">AI工具</span><br>
+            从这份资料包开始
+        </h1>
+        <p>
+            整理了50+实用AI工具教程，包含ChatGPT、Midjourney、Stable Diffusion使用指南，
+            100+可直接用的Prompt模板。让AI小白也能快速上手！
+        </p>
+        <div class="hero-buttons">
+            <a href="#pricing" class="btn btn-primary">查看资料包 →</a>
+            <a href="#packages" class="btn btn-outline">了解更多</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">AI工具教程</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Prompt模板</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">学员用户</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.9</div>
+                <div class="stat-label">平均评分</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资料包介绍 -->
+    <section class="section" id="packages">
+        <div class="section-header">
+            <h2>📦 资料包里有什么？</h2>
+            <p>覆盖学习、工作、副业三大场景的AI工具指南</p>
+        </div>
+        <div class="packages-grid">
+            <div class="package-card fade-in">
+                <div class="package-icon">🤖</div>
+                <h3>AI写作工具教程</h3>
+                <p>从注册到精通，全流程指南</p>
+                <ul class="package-list">
+                    <li>ChatGPT 注册+使用技巧</li>
+                    <li>文心一言 进阶用法</li>
+                    <li>Kimi/通义千问 评测对比</li>
+                    <li>30+ 写作场景Prompt</li>
+                </ul>
+            </div>
+            <div class="package-card fade-in">
+                <div class="package-icon">🎨</div>
+                <h3>AI图片生成教程</h3>
+                <p>Midjourney、Stable Diffusion一网打尽</p>
+                <ul class="package-list">
+                    <li>Midjourney 从入门到进阶</li>
+                    <li>Stable Diffusion 本地部署</li>
+                    <li>100+ 常用Prompt公式</li>
+                    <li>电商主图/头像/插画模板</li>
+                </ul>
+            </div>
+            <div class="package-card fade-in">
+                <div class="package-icon">💼</div>
+                <h3>AI职场应用案例</h3>
+                <p>用AI提效80%的实战技巧</p>
+                <ul class="package-list">
+                    <li>PPT自动生成方法</li>
+                    <li>Excel数据处理技巧</li>
+                    <li>简历优化Prompt</li>
+                    <li>会议纪要AI整理</li>
+                </ul>
+            </div>
+            <div class="package-card fade-in">
+                <div class="package-icon">🎬</div>
+                <h3>AI视频制作入门</h3>
+                <p>免费AI视频工具全攻略</p>
+                <ul class="package-list">
+                    <li>剪映AI功能使用</li>
+                    <li>免费AI配音工具</li>
+                    <li>字幕自动生成</li>
+                    <li>口播文案模板</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 定价 -->
+    <section class="section" id="pricing">
+        <div class="section-header">
+            <h2>💰 简单透明的定价</h2>
+            <p>一次性付费，永久使用，持续更新</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <div class="pricing-name">入门版</div>
+                <div class="pricing-price">29.9<span>元</span></div>
+                <div class="pricing-desc">适合想快速了解AI工具的新手</div>
+                <ul class="pricing-features">
+                    <li>AI写作工具教程（PDF）</li>
+                    <li>30个常用Prompt模板</li>
+                    <li>永久下载权限</li>
+                    <li>微信群答疑</li>
+                </ul>
+                <button class="btn btn-outline" onclick="openModal('basic')">立即购买</button>
+            </div>
+            <div class="pricing-card featured fade-in">
+                <div class="pricing-name">完整版</div>
+                <div class="pricing-price">69.9<span>元</span></div>
+                <div class="pricing-desc">包含全部50+工具教程，最推荐</div>
+                <ul class="pricing-features">
+                    <li>全部AI工具教程（PDF+视频）</li>
+                    <li>100+ Prompt模板合集</li>
+                    <li>永久下载+免费更新</li>
+                    <li>专属微信群交流</li>
+                    <li>每月新增内容推送</li>
+                </ul>
+                <button class="btn btn-primary" onclick="openModal('pro')">立即购买</button>
+            </div>
+            <div class="pricing-card fade-in">
+                <div class="pricing-name">年度会员</div>
+                <div class="pricing-price">199<span>元/年</span></div>
+                <div class="pricing-desc">持续学习，全年更新无忧</div>
+                <ul class="pricing-features">
+                    <li>完整版全部内容</li>
+                    <li>全年12次内容更新</li>
+                    <li>优先获取新工具教程</li>
+                    <li>一对一咨询（每月1次）</li>
+                    <li>会员专属资源库</li>
+                </ul>
+                <button class="btn btn-outline" onclick="openModal('vip')">立即购买</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户评价 -->
+    <section class="section">
+        <div class="section-header">
+            <h2>💬 用户真实评价</h2>
+            <p>来自各行各业的学员反馈</p>
+        </div>
+        <div class="testimonials">
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">"之前完全不懂AI，买完资料包后终于搞懂了ChatGPT怎么用，现在每天用它写文案，效率提升太多了！"</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">李</div>
+                        <div>
+                            <div class="testimonial-name">李女士</div>
+                            <div class="testimonial-role">新媒体运营</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">"Prompt模板太实用了！直接复制就能用，省了我好多时间。资料整理得很系统，推荐！"</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">张</div>
+                        <div>
+                            <div class="testimonial-name">张先生</div>
+                            <div class="testimonial-role">创业老板</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">"Midjourney教程讲得很细，跟着做图效果很好。已经接了几单设计单，赚回学费了 👍"</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">王</div>
+                        <div>
+                            <div class="testimonial-name">王同学</div>
+                            <div class="testimonial-role">设计专业大三</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="section-header">
+            <h2>❓ 常见问题</h2>
+        </div>
+        <div class="faq-item active">
+            <div class="faq-question">
+                <span>购买后如何获取资料？</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                付款后添加客服微信，备注订单号，客服会在24小时内发送百度网盘下载链接。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>资料会更新吗？</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                完整版购买后永久免费更新，年度会员每月都有新内容更新。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>零基础能学会吗？</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                当然可以！资料包专门为零基础小白设计，图文+视频教程，跟着操作就能学会。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>付款后不满意可以退款吗？</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                7天内不满意可申请退款，只需联系客服说明原因即可。
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>可以用微信支付吗？</span>
+                <span>+</span>
+            </div>
+            <div class="faq-answer">
+                可以！支持微信支付、支付宝付款，方便快捷。
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>🚀 早买早受益</h2>
+        <p>AI时代，会用AI的人效率提升10倍</p>
+        <a href="#pricing" class="btn btn-primary">立即开始学习AI →</a>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2026 有料AI | 让每个人都能用上AI</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">有问题联系客服</p>
+    </footer>
+
+    <!-- 支付弹窗 -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h3 id="modalTitle">购买完整版</h3>
+            <p style="color: #a1a1aa; margin-bottom: 1rem;">扫码支付 <strong id="modalPrice">69.9</strong> 元</p>
+            <div class="qr-codes">
+                <div class="qr-item">
+                    <h4>微信支付</h4>
+                    <div class="qr-placeholder">
+                        <img id="wechatQR" src="https://raw.githubusercontent.com/zzj834505/ai-tools-store/main/微信收款码.jpg" alt="微信支付二维码" style="width: 120px; height: 120px;">
+                    </div>
+                </div>
+                <div class="qr-item">
+                    <h4>支付宝</h4>
+                    <div class="qr-placeholder">
+                        <img id="alipayQR" src="https://raw.githubusercontent.com/tongge2025/ai-tools-store/main/支付宝收款码.jpg" alt="支付宝二维码" style="width: 120px; height: 120px;">
+                    </div>
+                </div>
+            </div>
+            <p class="payment-note">💬 付款后联系微信：xiaohongshu-mcp</p>
+        </div>
+    </div>
+
+    <script>
+        // FAQ折叠
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // 支付弹窗
+        function openModal(type) {
+            const modal = document.getElementById('paymentModal');
+            const title = document.getElementById('modalTitle');
+            const price = document.getElementById('modalPrice');
+            
+            const products = {
+                basic: { title: '购买入门版', price: '29.9' },
+                pro: { title: '购买完整版', price: '69.9' },
+                vip: { title: '购买年度会员', price: '199' }
+            };
+            
+            title.textContent = products[type].title;
+            price.textContent = products[type].price;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        // 点击外部关闭
+        document.getElementById('paymentModal').addEventListener('click', (e) => {
+            if (e.target.id === 'paymentModal') {
+                closeModal();
+            }
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
