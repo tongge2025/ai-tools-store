@@ -533,40 +533,36 @@
         }
 
         .qr-codes {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
             margin: 1.5rem 0;
+            flex-wrap: wrap;
         }
 
         .qr-item {
             background: rgba(255,255,255,0.05);
             border-radius: 12px;
             padding: 1rem;
+            text-align: center;
         }
 
         .qr-item h4 {
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .qr-placeholder {
-            width: 100%;
-            max-width: 220px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            overflow: hidden;
             background: #fff;
-            padding: 8px;
+            border-radius: 8px;
+            padding: 5px;
+            display: inline-block;
         }
         
         .qr-placeholder img {
-            width: 100%;
-            height: auto;
             display: block;
+            max-width: 150px;
+            height: auto;
         }
 
         .payment-note {
